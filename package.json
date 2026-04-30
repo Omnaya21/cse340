@@ -1,6 +1,7 @@
 {
   "name": "cse340",
   "dependencies": {
+    "ejs": "^5.0.2",
     "express": "^5.2.1"
   },
   "type": "module",
@@ -10,6 +11,7 @@
   },
   "packageManager": "pnpm@10.33.0",
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "ws": "^8.20.0"
   }
 }
