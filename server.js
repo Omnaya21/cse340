@@ -45,6 +45,30 @@ app.get('/products', (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/products.html'));
 });
 
+/**
+ * Create an Express route that serves a static HTML file and meets the following requirements:
+ * 1. The route should be accessible at the URL path '/test-1'.
+ * 2. The HTML file should be named 'test-1.html' and located in the 'src/views' directory.
+ * 3. You should serve the file using an absolute path, not a relative path.
+ */
+app.get('/test-1', (req, res) => {
+    res.sendFile(path.join(__dirname,'src/views/test-1.html'));
+});
+
+/**
+ * Create an Express route that serves a static HTML file and meets the following requirements:
+ * 1. The route should be accessible at the URL path '/test-2'.
+ * 2. The HTML file should be named 'test-2.html' and located in the 'src/views' directory.
+ * 3. You should serve the file using a relative path, not a absolute path.
+ */
+app.get('/test-2', (req, res) => {
+    //res.sendFile(path.join(__dirname, 'test-2.html'));
+    res.sendFile('src/views/test-2.html', {root: __dirname});
+    //res.sendFile('test-2.html', { 
+    //    root: path.join(__dirname, '/src/views/') // Root directory for relative paths
+    //});
+});
+
 
 // Start the server and listen on the specified port
 app.listen(PORT, () => {
