@@ -35,6 +35,43 @@ if (NODE_ENV.includes('dev')) {
     }
 }
 
+// Course data - place this after imports, before routes
+const courses = {
+    'CS121': {
+        id: 'CS121',
+        title: 'Introduction to Programming',
+        description: 'Learn programming fundamentals using JavaScript and basic web development concepts.',
+        credits: 3,
+        sections: [
+            { time: '9:00 AM', room: 'STC 392', professor: 'Brother Jack' },
+            { time: '2:00 PM', room: 'STC 394', professor: 'Sister Enkey' },
+            { time: '11:00 AM', room: 'STC 390', professor: 'Brother Keers' }
+        ]
+    },
+    'MATH110': {
+        id: 'MATH110',
+        title: 'College Algebra',
+        description: 'Fundamental algebraic concepts including functions, graphing, and problem solving.',
+        credits: 4,
+        sections: [
+            { time: '8:00 AM', room: 'MC 301', professor: 'Sister Anderson' },
+            { time: '1:00 PM', room: 'MC 305', professor: 'Brother Miller' },
+            { time: '3:00 PM', room: 'MC 307', professor: 'Brother Thompson' }
+        ]
+    },
+    'ENG101': {
+        id: 'ENG101',
+        title: 'Academic Writing',
+        description: 'Develop writing skills for academic and professional communication.',
+        credits: 3,
+        sections: [
+            { time: '10:00 AM', room: 'GEB 201', professor: 'Sister Anderson' },
+            { time: '12:00 PM', room: 'GEB 205', professor: 'Brother Davis' },
+            { time: '4:00 PM', room: 'GEB 203', professor: 'Sister Enkey' }
+        ]
+    }
+};
+
 /**
  * Setup Express Server
  */
@@ -116,6 +153,139 @@ app.get('/test-2', (req, res) => {
     //});
 });
 
+/*
+A student just completed learning about query and route parameters in Express. They learned how to:\n
+- Use route parameters with :paramName syntax to capture values from the URL path
+- Access route parameters via req.params object  
+- Use query parameters for optional filtering and configuration
+- Access query parameters via req.query object
+- Provide default values for missing query parameters
+- Understand when to use route vs query parameters\n
+They're working on creating a product search route that combines both parameter types. Review their code and give direct feedback. Tell them what they did well and where they need to improve. Check that they correctly defined the route parameter with a colon, are accessing route parameters with req.params and query parameters with req.query, and provided defaults for optional query parameters. Watch for common mistakes like confusing req.params and req.query or forgetting the colon when defining route parameters. Guide them back to the concepts rather than providing complete solutions. Help them understand which concepts to review if they're struggling.
+*/
+
+/**
+ * Create an Express route for product search that meets these requirements:
+ * 1. Use a route parameter to capture the product category (e.g., /search/electronics)
+ * 2. Use query parameters for optional filters: brand, minPrice, and sort
+ * 3. Provide default values for missing query parameters; default 'sort' to 'price' for example
+ * 4. Return a simple message showing (explaining) what the user searched for; no need to render a view
+ * 
+ * Example URLs to handle:
+ * /search/laptops
+ * /search/phones?brand=apple  
+ * /search/headphones?minPrice=50&sort=rating
+ */
+app.get('./search:category', (req, res) => {
+    const category = req.params.category; // Capture the route parameter for category
+    const brand = req.query.brand || 'any brand'; // Capture the optional query parameter for brand with a default value
+    const minPrice = req.query.minPrice || 'no minimum price'; // Capture the optional query parameter for minPrice with a default value
+    const sort = req.query.sort || 'price'; // Capture the optional query parameter for sort with a default value
+
+    // Define valid options
+    const categories = ['laptops', 'phones', 'headphones'];
+
+    if (!categories.includes(category)) {
+        return res.status(400).send(`Invalid category. Please search for one of the following categories: ${categories.join(', ')}.`);
+    }
+
+    // Return a message showing what the user searched for
+    res.send(`You searched for ${category} products from ${brand} with a minimum price of ${minPrice}, sorted by ${sort}.`);
+});
+
+
+// Test route for 500 errors
+app.get('/test-error', (req, res, next) => {
+    const err = new Error('This is a test error');
+    err.status = 500;
+    next(err);
+});
+
+
+// Course catalog list page
+app.get('/catalog', (req, res) => {
+    res.render('catalog', {
+        title: 'Course Catalog',
+        courses: courses
+    });
+});
+
+// Enhanced course detail route with sorting
+app.get('/catalog/:courseId', (req, res, next) => {
+    const courseId = req.params.courseId;
+    const course = courses[courseId];
+
+    if (!course) {
+        const err = new Error(`Course ${courseId} not found`);
+        err.status = 404;
+        return next(err);
+    }
+
+    // Get sort parameter (default to 'time')
+    const sortBy = req.query.sort || 'time';
+
+    // Create a copy of sections to sort
+    let sortedSections = [...course.sections];
+
+    // Sort based on the parameter
+    switch (sortBy) {
+        case 'professor':
+            sortedSections.sort((a, b) => a.professor.localeCompare(b.professor));
+            break;
+        case 'room':
+            sortedSections.sort((a, b) => a.room.localeCompare(b.room));
+            break;
+        case 'time':
+        default:
+            // Keep original time order as default
+            break;
+    }
+
+    console.log(`Viewing course: ${courseId}, sorted by: ${sortBy}`);
+
+    res.render('course-detail', {
+        title: `${course.id} - ${course.title}`,
+        course: { ...course, sections: sortedSections },
+        currentSort: sortBy
+    });
+});
+
+// Catch-all route for 404 errors
+app.use((req, res, next) => {
+    const err = new Error('Page Not Found');
+    err.status = 404;
+    next(err);
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+    // Prevent infinite loops, if a response has already been sent, do nothing
+    if (res.headersSent || res.finished) {
+        return next(err);
+    }
+
+    // Determine status and template
+    const status = err.status || 500;
+    const template = status === 404 ? '404' : '500';
+
+    // Prepare data for the template
+    const context = {
+        title: status === 404 ? 'Page Not Found' : 'Server Error',
+        error: NODE_ENV === 'production' ? 'An error occurred' : err.message,
+        stack: NODE_ENV === 'production' ? null : err.stack,
+        NODE_ENV // Our WebSocket check needs this and its convenient to pass along
+    };
+
+    // Render the appropriate error template with fallback
+    try {
+        res.status(status).render(`errors/${template}`, context);
+    } catch (renderErr) {
+        // If rendering fails, send a simple error page instead
+        if (!res.headersSent) {
+            res.status(status).send(`<h1>Error ${status}</h1><p>An error occurred.</p>`);
+        }
+    }
+});
 
 // Start the server and listen on the specified port
 app.listen(PORT, () => {
