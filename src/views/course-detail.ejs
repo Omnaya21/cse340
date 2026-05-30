@@ -6,7 +6,7 @@
         <p class="course-description"><%= course.description %></p>
     </div>
 
-    <% if (queryParams.sort == "professor") { %>
+    <% if (Object.keys(queryParams).length > 0) { %>
         <div class="sort-message">
             <p>Currently sorted by: <%= queryParams.sort %></p>
         </div>
