@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Page</title>
-    <link rel="stylesheet" href="/css/main.css">
-</head>
+<%- include('partials/header') %>
 <body>
-    <h1>ABOUT</h1>
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/products">Products</a></li>
-        </ul>
-    </nav>
+    <h1><%= title %></h1>
+
     <p>This is the About Page!</p>
     <div class="card">
       <img src="/img/profile.jpg" alt="Omar">
@@ -28,4 +15,4 @@
       </div>
     </div>
 </body>
-</html>
+<%- include('partials/footer') %>

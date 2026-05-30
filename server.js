@@ -245,6 +245,26 @@ app.get('./search:category', (req, res) => {
     res.send(`You searched for ${category} products from ${brand} with a minimum price of ${minPrice}, sorted by ${sort}.`);
 });
 
+// Route-specific middleware that sets custom headers
+const addDemoHeaders = (req, res, next) => {
+    // Your task: Set custom headers using res.setHeader()
+    // Add a header called 'X-Demo-Page' with value 'true'
+    // Add a header called 'X-Middleware-Demo' with any message you want
+    res.setHeader('X-Demo-Page', 'true');
+    res.setHeader('X-Middleware-Demo', 'This is a demo of custom headers');
+
+    console.log(`addDemoHeaders middleware: ${req.method} ${req.originalUrl}`);
+
+    next();
+};
+
+// Demo page route with header middleware
+app.get('/demo', addDemoHeaders, (req, res) => {
+    console.log('/demo route handler invoked for', req.method, req.originalUrl);
+    res.render('demo', {
+        title: 'Middleware Demo Page'
+    });
+});
 
 // Test route for 500 errors
 app.get('/test-error', (req, res, next) => {
@@ -301,6 +321,8 @@ app.get('/catalog/:courseId', (req, res, next) => {
         currentSort: sortBy
     });
 });
+
+
 
 // Catch-all route for 404 errors
 app.use((req, res, next) => {
