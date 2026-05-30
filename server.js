@@ -169,19 +169,16 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     const title = 'Home Page';
     res.render('home', { title });
-    //res.sendFile(path.join(__dirname, 'src/views/home.html'));
 });
 
 app.get('/about', (req, res) => {
     const title = 'About Page';
     res.render('about', { title });
-    //res.sendFile(path.join(__dirname, 'src/views/about.html'));
 });
 
 app.get('/products', (req, res) => {
     const title = 'Products Page';
     res.render('products', { title });
-    //  res.sendFile(path.join(__dirname, 'src/views/products.html'));
 });
 
 /**

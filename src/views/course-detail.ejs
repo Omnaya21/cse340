@@ -6,6 +6,16 @@
         <p class="course-description"><%= course.description %></p>
     </div>
 
+    <% if (queryParams.sort == "professor") { %>
+        <div class="sort-message">
+            <p>Currently sorted by: <%= queryParams.sort %></p>
+        </div>
+    <% } else { %>
+        <div class="sort-message">
+            <p>No sorting applied, using default sorting by time.</p>
+        </div>
+    <% } %>
+
     <div class="sections">
         <div class="sections-header">
             <h2>Available Sections</h2>
