@@ -4,7 +4,7 @@ const courses = {
         id: 'CS121',
         title: 'Introduction to Programming',
         department: 'Computer Science',
-        description: 'Learn programming fundamentals using JavaScript and basic web development concepts.',
+        description: 'Learn programming fundamentals using JavaScript and basic web development concepts. MVC',
         credits: 3,
         sections: [
             { time: '9:00 AM', room: 'STC 392', professor: 'Brother Jack' },
