@@ -1,4 +1,4 @@
-import { getAllCourses, getCourseById, getCoursesByDepartment, getSortedSections } from '../../models/catalog/catalog.js';
+import {getCoursesByDepartment, getSortedSections } from '../../models/catalog/catalog.js';
 
 // Route handler for the course catalog list page
 const departmentPage = (req, res) => {
@@ -13,7 +13,7 @@ const departmentPage = (req, res) => {
 // Route handler for individual course detail pages
 const departmentCourseDetailPage = (req, res, next) => {
     const courseId = req.params.courseId;
-    const course = getCourseById(courseId);
+    const course = getCourseBySlug(courseId);
 
     // If course doesn't exist, create 404 error
     if (!course) {

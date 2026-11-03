@@ -6,7 +6,7 @@ const router = Router();
 // TODO: Add import statements for controllers and middleware
 import { addDemoHeaders } from '../middleware/demo/headers.js';
 import { catalogPage, courseDetailPage } from './catalog/catalog.js';
-import { departmentPage, departmentCourseDetailPage } from './department/department.js';
+//import { departmentPage, departmentCourseDetailPage } from './department/department.js';
 import { facultyListPage, facultyDetailPage } from './faculty/faculty.js'; 
 import { homePage, aboutPage, demoPage, testErrorPage } from './index.js';
 
@@ -17,9 +17,9 @@ router.get('/about', aboutPage);
 
 // Course catalog routes
 router.get('/catalog', catalogPage);
-router.get('/catalog/:courseId', courseDetailPage);
-router.get('/department', departmentPage);
-router.get('/department/:courseId', departmentCourseDetailPage);
+router.get('/catalog/:slugId', courseDetailPage);
+//router.get('/department', departmentPage);
+//router.get('/department/:courseId', departmentCourseDetailPage);
 
 // Faculty routes
 router.get('/faculty', facultyListPage);
