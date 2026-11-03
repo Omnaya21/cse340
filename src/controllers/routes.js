@@ -7,6 +7,7 @@ import { catalogPage, courseDetailPage } from './catalog/catalog.js';
 import { facultyListPage, facultyDetailPage } from './faculty/faculty.js'; 
 import { homePage, aboutPage, demoPage, testErrorPage } from './index.js';
 import contactRoutes from './forms/contact.js';
+import registrationRoutes from './forms/registration.js';
 
 // Create a new router instance
 const router = Router();
@@ -30,6 +31,12 @@ router.use('/contact', (req, res, next) => {
     next();
 });
 
+// Add registration-specific styles to all registration routes
+router.use('/register', (req, res, next) => {
+    res.addStyle('<link rel="stylesheet" href="/css/registration.css">');
+    next();
+});
+
 // TODO: Add route definitions
 // Home and basic pages
 router.get('/', homePage);
@@ -47,6 +54,9 @@ router.get('/faculty/:facultyId', facultyDetailPage);
 
 // Contact form routes
 router.use('/contact', contactRoutes);
+
+// Registration routes
+router.use('/register', registrationRoutes);
 
 // Demo page with special middleware
 router.get('/demo', addDemoHeaders, demoPage);
