@@ -34,6 +34,10 @@ app.set('views', path.join(__dirname, 'src/views'));
  */
 app.use(addLocalVariables);
 
+// Allow Express to receive and process POST data
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 /**
  * Routes
  */
