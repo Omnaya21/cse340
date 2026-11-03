@@ -1,14 +1,27 @@
 import { Router } from 'express';
 
-// Create a new router instance
-const router = Router();
-
 // TODO: Add import statements for controllers and middleware
 import { addDemoHeaders } from '../middleware/demo/headers.js';
 import { catalogPage, courseDetailPage } from './catalog/catalog.js';
 //import { departmentPage, departmentCourseDetailPage } from './department/department.js';
 import { facultyListPage, facultyDetailPage } from './faculty/faculty.js'; 
 import { homePage, aboutPage, demoPage, testErrorPage } from './index.js';
+
+// Create a new router instance
+const router = Router();
+
+// Router middleware should be added here, before route definitions
+// Add catalog-specific styles to all catalog routes
+router.use('/catalog', (req, res, next) => {
+    res.addStyle('<link rel="stylesheet" href="/css/catalog.css">');
+    next();
+});
+
+// Add faculty-specific styles to all faculty routes
+router.use('/faculty', (req, res, next) => {
+    res.addStyle('<link rel="stylesheet" href="/css/faculty.css">');
+    next();
+});
 
 // TODO: Add route definitions
 // Home and basic pages
