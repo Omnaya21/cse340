@@ -103,11 +103,6 @@ const processLogout = (req, res) => {
         return res.redirect('/');
     }
 
-    /**
-     * We'll create a flash message and redirect to login page
-     */
-    req.flash('success', 'You have been logged out.');
-
     // Call destroy() to remove this session from the store (PostgreSQL in our case)
     req.session.destroy((err) => {
         if (err) {
@@ -132,6 +127,10 @@ const processLogout = (req, res) => {
         // If session destruction succeeded, clear the session cookie from the browser
         res.clearCookie('connect.sid');
 
+        /**
+         * We'll create a flash message and redirect to login page
+         */
+        req.flash('success', 'You have been logged out.');
         res.redirect('/login');
         // Redirect the user to the home page
         //res.redirect('/');

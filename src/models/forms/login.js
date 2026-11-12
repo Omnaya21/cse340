@@ -12,9 +12,17 @@ const findUserByEmail = async (email) => {
     // TODO: Use LOWER() on both sides for case-insensitive email comparison
     // TODO: Use $1 placeholder for email parameter
     // TODO: Add LIMIT 1 to ensure only one result
-    const query = `SELECT id, name, email, password, created_at 
+    const query = `SELECT 
+                      users.id, 
+                      users.name, 
+                      users.email, 
+                      users.password, 
+                      users.created_at,
+                      roles.role_name AS "roleName" 
                    FROM users 
-                   WHERE LOWER(email) = LOWER($1) LIMIT 1`;
+                   INNER JOIN roles ON users.role_id = roles.id
+                   WHERE LOWER(users.email) = LOWER($1) 
+                   LIMIT 1`;
     // TODO: Execute query and return first row or null
     const result = await db.query(query, [email]);
     return result.rows[0] || null;
