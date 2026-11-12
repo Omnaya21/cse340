@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <%- renderStyles() %>
     <%- renderScripts() %>
 
@@ -65,7 +67,18 @@
             <% Object.keys(messages).forEach(type => { %>
                 <% messages[type].forEach(message => { %>
                     <div class="flash <%= type %>">
+                        <!-- <i class="fa-solid fa-check <%= type %>"></i> -->
+                        <i class="flash-icon <%= {
+                              success: 'fa-solid fa-circle-check',
+                              error: 'fa-solid fa-circle-xmark',
+                              warning: 'fa-solid fa-triangle-exclamation',
+                              info: 'fa-solid fa-circle-info'
+                            }[type] || 'fa-solid fa-circle-info' %>" aria-hidden="true"></i>
                         <%= message %>
+                        <button type="button" class="close-flash" 
+                            onclick="this.parentElement.style.display='none';">                            
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                     </div>
                 <% }); %>
             <% }); %>

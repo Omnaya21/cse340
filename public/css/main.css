@@ -82,27 +82,63 @@ body {
         line-height: 1.5;
 
         &.success {
+            content: "\f058"; /* Font Awesome check icon */
             background-color: #d4edda;
             border-color: #28a745;
             color: #155724;
         }
 
         &.error {
+            content: "\f057"; /* Font Awesome times icon */
             background-color: #f8d7da;
             border-color: #dc3545;
             color: #721c24;
         }
 
         &.warning {
+            content: "\f071"; /* Font Awesome exclamation-triangle icon */
             background-color: #fff3cd;
             border-color: #ffc107;
             color: #856404;
         }
 
         &.info {
+            content: "\f05a"; /* Font Awesome info icon */  
             background-color: #d1ecf1;
             border-color: #17a2b8;
             color: #0c5460;
         }
+
+        .fa-check {
+            font-family: "Font Awesome 5 Free"; /* Ensure Font Awesome is loaded */
+            font-weight: 900; /* Use solid style */
+
+            &.success {
+                content: "\f058"; /* Font Awesome check icon */
+                background-color: #28a745;
+            }
+            &.error {
+                content: "\f057"; /* Font Awesome times icon */
+                background-color: #dc3545;
+            }
+            &.warning {
+                content: "\f071"; /* Font Awesome exclamation-triangle icon */
+                background-color: #ffc107;
+            }
+            &.info {
+                content: "\f05a"; /* Font Awesome info icon */
+                background-color: #17a2b8;
+            }
+        }
+
+        button.close-flash {
+                background: none;
+                border: none;
+                font-size: 1.2rem;
+                line-height: 1;
+                color: inherit;
+                cursor: pointer;
+                float: right;
+            }
     }
 }
