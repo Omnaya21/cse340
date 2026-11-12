@@ -139,6 +139,13 @@ body {
                 color: inherit;
                 cursor: pointer;
                 float: right;
-            }
+         }
+        button.close-flash:hover {
+          border:#0066cc;
+          border-radius: 5px;
+          border-width: 1px;
+          background-color: #ee8686;
+          color: white;
+        }
     }
 }
