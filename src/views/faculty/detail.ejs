@@ -2,20 +2,22 @@
 <main>
     <div class="faculty-profile">
         <h1><%= faculty.name %></h1>
+        <img src="/images/faculty/<%= faculty.slug %>.jpg" 
+            alt="Profile image of <%= faculty.name %>" class="faculty-photo">
         <p class="faculty-title"><%= faculty.title %></p>
         <p class="faculty-department"><%= faculty.department %> Department</p>
     </div>
     
-    <div class="faculty-contact">
+    <div class="faculty-details">
         <h2>Contact Information</h2>
-        <div class="contact-details">
-            <div class="contact-item">
+        <div class="detail-section">
+            <div class="detail-item">
                 <strong>Office:</strong> <%= faculty.office %>
             </div>
-            <div class="contact-item">
+            <div class="detail-item">
                 <strong>Phone:</strong> <a href="tel:<%= faculty.phone %>"><%= faculty.phone %></a>
             </div>
-            <div class="contact-item">
+            <div class="detail-item">
                 <strong>Email:</strong> <a href="mailto:<%= faculty.email %>"><%= faculty.email %></a>
             </div>
         </div>
